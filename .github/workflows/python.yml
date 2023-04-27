@@ -1,0 +1,27 @@
+name: Python application
+on:
+  schedule:
+    - cron:  '59 * * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        cache: 'pip' # caching pip dependencies
+    - run: |
+         pip install -r requirements.txt
+         python ./main.py
+    - name: Commit files
+      run: |
+         git config --local user.email "1046818625@qq.com"
+         git config --local user.name "yuhe1iu"
+         git add .
+         git commit -m "feat: update sina news"
+    - name: Push changes
+      uses:  ad-m/github-push-action@master
+      with:
+         github_token: ${{ secrets.MY_GIT_TOKEN }}
+         branch: master
