@@ -2,6 +2,7 @@ name: sina-news
 on:
   schedule:
     - cron:  '50 * * * *'
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
