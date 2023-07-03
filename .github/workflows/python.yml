@@ -30,7 +30,7 @@ jobs:
       run: python ./main.py
     - name: Commit files
       run: |
-         git config --local user.email ${{ steps.bot-details.outputs.email }}"
+         git config --local user.email ${{ steps.bot-details.outputs.email }}
          git config --local user.name ${{ steps.bot-details.outputs.name }}
          git add .
          git commit -m "feat: update sina news"
