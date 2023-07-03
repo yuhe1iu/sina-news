@@ -1,7 +1,7 @@
 name: sina-news
 on:
   schedule:
-    - cron:  '5 * * * *'
+    - cron:  '50 * * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
