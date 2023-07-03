@@ -1,0 +1,41 @@
+name: sina-news
+on:
+  schedule:
+    - cron:  '5 * * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Bot Details
+      id: bot-details
+      uses: raven-actions/bot-details@v1
+
+    - name: Bot Details outputs
+      run: |
+        echo "ID: ${{ steps.bot-details.outputs.id }}"
+        echo "Slug name: ${{ steps.bot-details.outputs.slug }}"
+        echo "Display name: ${{ steps.bot-details.outputs.name }}"
+        echo "Email: ${{ steps.bot-details.outputs.email }}"
+        echo "Name Email: ${{ steps.bot-details.outputs.name-email }}"
+        echo "HTML URL: ${{ steps.bot-details.outputs.html-url }}"
+        echo "API URL: ${{ steps.bot-details.outputs.api-url }}"
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        cache: 'pip' # caching pip dependencies
+    - name: Install
+      run: pip install -r requirements.txt
+    - name: Run
+      run: python ./main.py
+    - name: Commit files
+      run: |
+         git config --local user.email ${{ steps.bot-details.outputs.email }}
+         git config --local user.name ${{ steps.bot-details.outputs.name }}
+         git add .
+         git commit -m "feat: update sina news"
+    - name: Push changes
+      uses:  ad-m/github-push-action@master
+      with:
+         github_token: ${{ secrets.MY_GIT_TOKEN }}
+         branch: master
